@@ -35,23 +35,12 @@ def sample_C(n):
 
 def monte_carlo_estimate(n):
     """Compute MC estimate of emissions"""
-    
-    T = sample_T(n)
-    P = sample_P(n)
-    C = sample_C(n)
-
-    E = T * P * C
-
-    mean = np.mean(E)
-    var = np.var(E, ddof=1)
-    std_error = np.sqrt(var / n)
-
-    return mean, var, std_error, E
+    raise NotImplementedError("Implement this function")
 
 
 def confidence_interval(mean, std_error, z=1.96):
     """Compute 95% CI"""
-    return mean - z * std_error, mean + z * std_error
+    raise NotImplementedError("Implement this function")
 
 
 def plot_convergence(max_n=10000, step=500):
@@ -79,34 +68,21 @@ def proposal_C(n):
     Proposal distribution q(C)
     TODO: Modify to oversample high carbon values
     """
-    return np.random.uniform(0.5, 1.0, size=n)  # biased toward high values
+    raise NotImplementedError("Implement this function")
 
 
 def target_pdf_C(c):
     """Target PDF p(C) for Uniform(C_MIN, C_MAX)"""
-    return np.where((c >= C_MIN) & (c <= C_MAX), 1.0 / (C_MAX - C_MIN), 0.0)
+    raise NotImplementedError("Implement this function")
 
 
 def proposal_pdf_C(c):
     """Proposal PDF q(C)"""
-    return np.where((c >= 0.5) & (c <= 1.0), 1.0 / (1.0 - 0.5), 0.0)
+    raise NotImplementedError("Implement this function")
 
 
 def importance_sampling_estimate(n):
-    T = sample_T(n)
-    P = sample_P(n)
-    C = proposal_C(n)
-
-    # TODO: Compute importance weights
-    weights = target_pdf_C(C) / proposal_pdf_C(C)
-
-    E = T * P * C * weights
-
-    mean = np.mean(E)
-    var = np.var(E, ddof=1)
-    std_error = np.sqrt(var / n)
-
-    return mean, var, std_error
+    raise NotImplementedError("Implement this function")
 
 
 # ==============================
@@ -114,31 +90,7 @@ def importance_sampling_estimate(n):
 # ==============================
 
 def control_variates_estimate(n):
-    T = sample_T(n)
-    P = sample_P(n)
-    C = sample_C(n)
-
-    E = T * P * C
-    X = T * P  # control variable
-
-    # Analytical expectation (students should verify)
-    EX = np.exp(MU_T + 0.5 * SIGMA_T**2) * MU_P
-
-    # TODO: Estimate covariance and variance
-    cov = np.cov(X, E)[0, 1]
-    var_X = np.var(X, ddof=1)
-
-    # TODO: Compute optimal coefficient
-    c = cov / var_X
-
-    # TODO: Apply control variate correction
-    E_cv = E - c * (X - EX)
-
-    mean = np.mean(E_cv)
-    var = np.var(E_cv, ddof=1)
-    std_error = np.sqrt(var / n)
-
-    return mean, var, std_error
+    raise NotImplementedError("Implement this function")
 
 
 # ==============================
